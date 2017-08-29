@@ -8,15 +8,15 @@
 
 
 // Import the interfaces
-#import "HelloWorldLayer.h"
+#import "TitleScene.h"
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 
-#pragma mark - HelloWorldLayer
+#pragma mark - TitleScene
 
 // HelloWorldLayer implementation
-@implementation HelloWorldLayer
+@implementation TitleScene
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -25,7 +25,7 @@
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
-	HelloWorldLayer *layer = [HelloWorldLayer node];
+	TitleScene *layer = [TitleScene node];
 	
 	// add layer as a child to scene
 	[scene addChild: layer];
@@ -42,29 +42,47 @@
 	if( (self=[super init]) ) {
 		
 		// create and initialize a Label
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
-
+		//CCLabelTTF *label = [CCLabelTTF labelWithString:@"Breakout" fontName:@"Marker Felt" fontSize:64];
+        CCLabelTTF *label = [CCLabelTTF labelWithString:@"Breakout" fontName:@"TravelingTypewriter" fontSize:64];
+        CCLabelTTF *label2 = [CCLabelTTF labelWithString:@"Northeast High Gaming Academy" fontName:@"TravelingTypewriter" fontSize:32];
+		
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
 	
 		// position the label on the center of the screen
-		label.position =  ccp( size.width /2 , size.height/2 );
+		label.position =  ccp( size.width /2 , size.height * .85 );
+        label2.position =  ccp( size.width /2 , size.height * .75 );
 		
 		// add the label as a child to this Layer
 		[self addChild: label];
+        [self addChild: label2];
 		
 		
 		
 		//
-		// Leaderboards and Achievements
+		// Menu Items
 		//
 		
 		// Default font size will be 28 points.
 		[CCMenuItemFont setFontSize:28];
-		
+		[CCMenuItemFont setFontName:@"TravelingTypewriter"];
 		// to avoid a retain-cycle with the menuitem and blocks
 		__block id copy_self = self;
 		
+        // Developer Level Menu Item using blocks
+		CCMenuItem *itemDevLevel = [CCMenuItemFont itemWithString:@"Developer Level" block:^(id sender) {
+			
+			[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[DevLevel scene]]];
+            
+		}];
+        
+        // Inequalities Level Menu Item using blocks
+		CCMenuItem *itemInequalityLevel = [CCMenuItemFont itemWithString:@"Inequalities" block:^(id sender) {
+			
+			[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[InequalityLevel scene]]];
+            
+		}];
+        
 		// Achievement Menu Item using blocks
 		CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
 			
@@ -94,16 +112,21 @@
 		}];
 
 		
-		CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, nil];
+		CCMenu *menu = [CCMenu menuWithItems:itemDevLevel, itemInequalityLevel, itemAchievement, itemLeaderboard, nil];
 		
-		[menu alignItemsHorizontallyWithPadding:20];
-		[menu setPosition:ccp( size.width/2, size.height/2 - 50)];
+		[menu alignItemsVerticallyWithPadding:5];
+		[menu setPosition:ccp( size.width/2, size.height/2)];
 		
 		// Add the menu to the layer
 		[self addChild:menu];
 
+        //[self schedule:@selector(tick:) interval:1];
 	}
 	return self;
+}
+
+-(void)tick:(ccTime)dt {
+ 
 }
 
 // on "dealloc" you need to release all your retained objects

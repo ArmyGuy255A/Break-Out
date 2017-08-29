@@ -198,6 +198,7 @@ Example:
 {
 	CGPoint _endPosition;
 }
+@property (assign) CGPoint endPosition;
 /** creates the action */
 +(id) actionWithDuration:(ccTime)duration position:(CGPoint)position;
 /** initializes the action */

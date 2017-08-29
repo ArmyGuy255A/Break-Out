@@ -702,6 +702,7 @@
 #pragma mark MoveTo
 
 @implementation CCMoveTo
+@synthesize endPosition = _endPosition;
 +(id) actionWithDuration: (ccTime) t position: (CGPoint) p
 {
 	return [[[self alloc] initWithDuration:t position:p ] autorelease];

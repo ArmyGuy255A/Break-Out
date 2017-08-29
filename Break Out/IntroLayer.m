@@ -9,7 +9,7 @@
 
 // Import the interfaces
 #import "IntroLayer.h"
-#import "HelloWorldLayer.h"
+#import "TitleScene.h"
 
 
 #pragma mark - IntroLayer
@@ -60,7 +60,13 @@
 
 -(void) onEnter
 {
+    //delay the splash screen.
 	[super onEnter];
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer scene] ]];
+    [self performSelector:@selector(transitionToGame) withObject:nil afterDelay:0.0f];
+	
+}
+
+-(void)transitionToGame {
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[TitleScene scene]]];
 }
 @end
